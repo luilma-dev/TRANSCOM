@@ -1,0 +1,197 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+html {
+  scroll-behavior: smooth;
+  font-family: var(--font-dm-sans), system-ui, -apple-system, sans-serif;
+}
+
+body {
+  background-color: #ffffff;
+  color: #0d0d0f;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+::selection {
+  background-color: #e30613;
+  color: #ffffff;
+}
+
+/* Soft Hero Container Surface */
+.surface-hero {
+  background: radial-gradient(
+    120% 100% at 50% 0%,
+    #f8f9fc 0%,
+    #f3f4f8 55%,
+    #ffffff 100%
+  );
+}
+
+/* Bento Card Variants */
+.bento-card-light {
+  background-color: #f7f8fa;
+  border-radius: 28px;
+  border: 1px solid #eceef2;
+  color: #0d0d0f;
+  transition: all 200ms ease;
+}
+
+.bento-card-dark {
+  background-color: #0d0d0f;
+  border-radius: 28px;
+  color: #ffffff;
+  transition: all 200ms ease;
+}
+
+/* Pill Section Tag */
+.section-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 500;
+  color: #0d0d0f;
+  background-color: #ffffff;
+  border: 1px solid #e4e7ec;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* Inline Icon Badge inside Display Headings */
+.inline-heading-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 0.65rem;
+  vertical-align: middle;
+  margin-left: 0.15rem;
+  margin-right: 0.15rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+@media (min-width: 640px) {
+  .inline-heading-badge {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 1rem;
+    margin-left: 0.25rem;
+    margin-right: 0.25rem;
+  }
+}
+
+/* Responsive Alpha Mask for Panoramic Dark Cards (Vertical on Mobile, Horizontal on Desktop) */
+.panoramic-photo-mask {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.25) 14%,
+    rgba(0, 0, 0, 0.78) 34%,
+    black 52%,
+    black 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.25) 14%,
+    rgba(0, 0, 0, 0.78) 34%,
+    black 52%,
+    black 100%
+  );
+}
+
+@media (min-width: 1024px) {
+  .panoramic-photo-mask {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      transparent 3%,
+      rgba(0, 0, 0, 0.08) 10%,
+      rgba(0, 0, 0, 0.32) 20%,
+      rgba(0, 0, 0, 0.72) 32%,
+      black 46%,
+      black 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      transparent 3%,
+      rgba(0, 0, 0, 0.08) 10%,
+      rgba(0, 0, 0, 0.32) 20%,
+      rgba(0, 0, 0, 0.72) 32%,
+      black 46%,
+      black 100%
+    );
+  }
+}
+
+/* =========================================================================
+   SISTEMA DE MOVIMENTO NO SCROLL
+   Conteúdo sempre 100% visível por padrão, sem esconder blocos com opacity-0.
+   ========================================================================= */
+[data-reveal] {
+  opacity: 1;
+}
+
+/* =========================================================================
+   PONTEIRO DO VELOCÍMETRO (MOMENTO PRINCIPAL DA MARCA)
+   1. Ignição: varre da esquerda até a posição oficial ao carregar.
+   2. Aceleração: gira até ~42° à direita conforme a página é percorrida.
+   ========================================================================= */
+.logo-needle-scroll,
+.logo-needle-ignition {
+  transform-box: view-box;
+  transform-origin: 125px 122px;
+}
+
+.logo-needle-scroll {
+  transform: rotate(calc(var(--scroll-progress, 0) * 42deg));
+  transition: transform 450ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.logo-needle-ignition {
+  animation: needle-ignition 1500ms cubic-bezier(0.16, 1, 0.3, 1) 250ms both;
+}
+
+@keyframes needle-ignition {
+  0% {
+    transform: rotate(-100deg);
+  }
+  60% {
+    transform: rotate(8deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+/* Movimento reduzido: sem deslocamento, desfoque, recorte ou giro */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal-ready [data-reveal] {
+    transition-property: opacity;
+    transition-duration: 300ms;
+    transition-delay: 0ms;
+  }
+
+  .reveal-ready [data-reveal]:not([data-revealed]) {
+    transform: none;
+    filter: none;
+    clip-path: none;
+  }
+
+  .logo-needle-scroll,
+  .logo-needle-ignition {
+    transform: none;
+    animation: none;
+    transition: none;
+  }
+}
+
