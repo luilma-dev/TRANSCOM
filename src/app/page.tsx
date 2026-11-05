@@ -31,6 +31,7 @@ import {
   FrigolinoLogo,
   SearaLogo,
 } from "@/components/PartnerLogos";
+import { getAssetPath } from "@/lib/utils";
 
 const NAV_LINKS = [
   { id: "inicio", label: "Início", href: "#inicio" },
@@ -260,7 +261,7 @@ export default function HomePage() {
           >
             <video
               ref={video0Ref}
-              src="/media/video-hero-1.mp4"
+              src={getAssetPath("/media/video-hero-1.mp4")}
               autoPlay
               muted
               playsInline
@@ -275,7 +276,7 @@ export default function HomePage() {
             />
             <video
               ref={video1Ref}
-              src="/media/video-hero-2.mp4"
+              src={getAssetPath("/media/video-hero-2.mp4")}
               muted
               playsInline
               preload="auto"
@@ -518,7 +519,7 @@ export default function HomePage() {
             <div className="relative h-[220px] sm:h-[340px] lg:h-auto lg:absolute lg:inset-y-0 lg:right-0 w-full lg:w-[62%] mt-2 lg:mt-0 overflow-hidden pointer-events-none">
               <img
                 ref={sobreImgParallaxRef}
-                src="/media/quem-somos-equipe.jpg"
+                src={getAssetPath("/media/quem-somos-equipe.jpg")}
                 alt="Equipe Transcom"
                 className="w-full h-full object-cover object-center panoramic-photo-mask"
               />
@@ -606,19 +607,19 @@ export default function HomePage() {
             {
               name: "Aurora Coop",
               segment: "Proteínas e laticínios",
-              src: "/brand/parceiro-aurora-clean.png",
+              src: getAssetPath("/brand/parceiro-aurora-clean.png"),
               imgClass: "h-9 sm:h-11 w-auto object-contain",
             },
             {
               name: "Seara Alimentos",
               segment: "Refrigerados e congelados",
-              src: "/brand/parceiro-seara-clean.png",
+              src: getAssetPath("/brand/parceiro-seara-clean.png"),
               imgClass: "h-12 sm:h-14 w-auto object-contain",
             },
             {
               name: "BRF",
               segment: "Cadeia fria industrial",
-              src: "/brand/parceiro-brf.png",
+              src: getAssetPath("/brand/parceiro-brf.png"),
               imgClass: "h-11 sm:h-13 w-auto object-contain",
             },
           ].map(({ name, segment, src, imgClass }) => (

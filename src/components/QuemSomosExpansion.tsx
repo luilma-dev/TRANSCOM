@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import { getAssetPath } from "@/lib/utils";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -535,7 +536,7 @@ export const QuemSomosExpansion: React.FC = () => {
               {NOSSA_ESTRUTURA_ITENS.map((item, idx) => (
                 <img
                   key={item.id}
-                  src={item.imagem}
+                  src={getAssetPath(item.imagem)}
                   alt={item.titulo}
                   className={`absolute inset-0 w-full h-full object-cover object-center panoramic-photo-mask transition-all duration-700 ease-out ${
                     idx === activeEstruturaIndex
@@ -582,7 +583,7 @@ export const QuemSomosExpansion: React.FC = () => {
                   <article key={item.id} className="group flex flex-col">
                     <div className="relative aspect-[16/10] w-full rounded-[24px] sm:rounded-[32px] overflow-hidden bg-[#18181B] border border-white/10 mb-4 sm:mb-6">
                       <img
-                        src={item.fotoUrl}
+                        src={getAssetPath(item.fotoUrl)}
                         alt={item.departamento}
                         className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
                       />
@@ -609,7 +610,7 @@ export const QuemSomosExpansion: React.FC = () => {
                   <article key={item.id} className="group flex flex-col">
                     <div className="relative aspect-[4/3] w-full rounded-[24px] sm:rounded-[32px] overflow-hidden bg-[#18181B] border border-white/10 mb-4 sm:mb-6">
                       <img
-                        src={item.fotoUrl}
+                        src={getAssetPath(item.fotoUrl)}
                         alt={item.departamento}
                         className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
                       />
