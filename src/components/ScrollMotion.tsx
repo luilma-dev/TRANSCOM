@@ -50,11 +50,11 @@ export const ScrollMotion = () => {
             reveal(entry.target as HTMLElement);
           }
         });
-      }, { threshold: 0, rootMargin: "0px 0px -6% 0px" });
+      }, { threshold: 0, rootMargin: "0px 0px -15% 0px" });
 
       elements.forEach((element) => {
         // Preserve visible content on load, restored scroll and anchor links.
-        if (element.getBoundingClientRect().top < window.innerHeight * 0.94) return;
+        if (element.getBoundingClientRect().top < window.innerHeight) return;
         element.classList.add("scroll-enter");
         pending.add(element);
         observer?.observe(element);
@@ -72,6 +72,8 @@ export const ScrollMotion = () => {
     let rafId = 0;
     const updateProgress = () => {
       rafId = 0;
+      // Desktop scrollbar width must not push full-width sections off-center.
+      root.style.setProperty("--page-width", `${root.clientWidth}px`);
       const max = root.scrollHeight - window.innerHeight;
       const progress = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
       root.style.setProperty("--scroll-progress", progress.toFixed(4));

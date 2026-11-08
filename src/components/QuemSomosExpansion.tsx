@@ -450,7 +450,7 @@ export const QuemSomosExpansion: React.FC = () => {
       {/* =====================================================================
           2. NOSSA ESTRUTURA (FUNDO BRANCO #FFFFFF)
       ===================================================================== */}
-      <div className="relative left-1/2 -translate-x-1/2 w-screen bg-white py-16 sm:py-24 px-4 sm:px-6 lg:px-8">
+      <div className="full-bleed relative bg-white py-16 sm:py-24 px-4 sm:px-6 lg:px-8">
         <ScrollRevealBlock
           id="nossa-estrutura"
           className="max-w-[1340px] mx-auto px-1 sm:px-8 lg:px-12"
@@ -553,7 +553,7 @@ export const QuemSomosExpansion: React.FC = () => {
       {/* =====================================================================
           3. NOSSA EQUIPE (FUNDO INTEIRO PRETO CARBONO #0D0D0F PARA CONTRASTE)
       ===================================================================== */}
-      <div className="relative left-1/2 -translate-x-1/2 w-screen bg-[#0D0D0F] text-white py-16 sm:py-28 px-4 sm:px-6 lg:px-8 !mt-0">
+      <div className="full-bleed relative bg-[#0D0D0F] text-white py-16 sm:py-28 px-4 sm:px-6 lg:px-8 !mt-0">
         <ScrollRevealBlock
           id="nossa-equipe"
           className="max-w-[1340px] mx-auto px-1 sm:px-8 lg:px-12"

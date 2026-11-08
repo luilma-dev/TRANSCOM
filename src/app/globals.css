@@ -1,6 +1,8 @@
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* Keep responsive utilities before our component refinements as well. */
+@tailwind variants;
 
 html {
   scroll-behavior: smooth;
@@ -17,6 +19,11 @@ body {
 ::selection {
   background-color: #e30613;
   color: #ffffff;
+}
+
+.full-bleed {
+  width: var(--page-width, 100vw);
+  margin-inline: calc(50% - var(--page-width, 100vw) / 2);
 }
 
 /* Mobile: continuous sections, full-width imagery and a single text gutter. */
@@ -388,8 +395,8 @@ body {
   }
 
   .mobile-panel {
-    width: 100vw;
-    margin-inline: calc(50% - 50vw);
+    width: var(--page-width, 100vw);
+    margin-inline: calc(50% - var(--page-width, 100vw) / 2);
     border-radius: 0;
   }
 

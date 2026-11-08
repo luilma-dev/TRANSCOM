@@ -58,7 +58,7 @@ function setup({ reduced = false, supported = true, viewport = 800 } = {}) {
     exports: {}, Node: Element, IntersectionObserver: Observer, window,
     require: () => ({ useEffect: (fn) => { effect = fn; } }),
     document: {
-      documentElement: { scrollHeight: 4000, style: { setProperty() {} } },
+      documentElement: { clientWidth: 1347, scrollHeight: 4000, style: { setProperty() {} } },
       querySelectorAll: () => elements,
       addEventListener: (event, fn) => listeners.set(event, fn),
       removeEventListener: (event) => listeners.delete(event),
@@ -88,6 +88,7 @@ test("entrance plays once and supports tall blocks on mobile and desktop", () =>
     const state = setup({ viewport });
     const observer = state.observers[0];
     assert.equal(observer.options.threshold, 0);
+    assert.equal(observer.options.rootMargin, "0px 0px -15% 0px");
     observer.callback([{ target: state.below, isIntersecting: true, boundingClientRect: { bottom: 600 } }]);
     assert.ok(state.below.classes.has("is-visible"));
     assert.equal(observer.observed.size, 0);

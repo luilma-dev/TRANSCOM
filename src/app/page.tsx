@@ -482,7 +482,7 @@ export default function HomePage() {
       {/* =====================================================================
           BLOCO 3: NOSSOS SERVIÇOS (FUNDO AZUL DE PONTA A PONTA)
       ===================================================================== */}
-      <div className="relative left-1/2 -translate-x-1/2 w-screen bg-[#0F2942] text-white py-16 sm:py-24 px-4 sm:px-6 lg:px-8">
+      <div className="full-bleed relative bg-[#0F2942] text-white py-16 sm:py-24 px-4 sm:px-6 lg:px-8">
         <section
           id="servicos"
           key="servicos-section-v2"
