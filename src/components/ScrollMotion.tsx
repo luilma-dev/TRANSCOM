@@ -15,7 +15,6 @@ export const ScrollMotion = () => {
       ".mobile-panel > .pointer-events-none",
       ".mobile-structure-controls",
       ".mobile-about svg[aria-label]",
-      "#contato footer > *",
     ].join(", ");
     const candidates = Array.from(document.querySelectorAll<HTMLElement>([
       groups,
@@ -28,7 +27,7 @@ export const ScrollMotion = () => {
     // A photo, metric or contact enters as one unit, never with a second
     // animation on its children. Existing transform-based layouts stay intact.
     const elements = candidates.filter((element) =>
-      !element.parentElement?.closest(groups)
+      !element.closest("footer") && !element.parentElement?.closest(groups)
     );
     const pending = new Set<HTMLElement>();
     let observer: IntersectionObserver | null = null;
@@ -75,6 +74,11 @@ export const ScrollMotion = () => {
       // Desktop scrollbar width must not push full-width sections off-center.
       root.style.setProperty("--page-width", `${root.clientWidth}px`);
       const max = root.scrollHeight - window.innerHeight;
+      // The last blocks may never reach the inset observer viewport. At the
+      // scroll limit, reveal all remaining content instead of leaving it hidden.
+      if (max <= 0 || window.scrollY >= max - 2) {
+        pending.forEach(reveal);
+      }
       const progress = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
       root.style.setProperty("--scroll-progress", progress.toFixed(4));
     };

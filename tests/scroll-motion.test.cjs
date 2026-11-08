@@ -13,6 +13,7 @@ function setup({ reduced = false, supported = true, viewport = 800 } = {}) {
   let effect;
   const observers = [];
   const listeners = new Map();
+  const frames = [];
   class Element {
     constructor(top, nested = false) {
       this.top = top;
@@ -25,12 +26,15 @@ function setup({ reduced = false, supported = true, viewport = 800 } = {}) {
     }
     getBoundingClientRect() { return { top: this.top, bottom: this.top + 200 }; }
     contains(target) { return target === this; }
+    closest(selector) { return selector === "footer" && this.footer ? this : null; }
   }
   const visible = new Element(100);
   const above = new Element(-600);
   const below = new Element(1200);
   const nested = new Element(1400, true);
-  const elements = [visible, above, below, nested];
+  const footer = new Element(3800);
+  footer.footer = true;
+  const elements = [visible, above, below, nested, footer];
   const preference = {
     matches: reduced,
     addEventListener: (_, fn) => listeners.set("preference", fn),
@@ -50,8 +54,10 @@ function setup({ reduced = false, supported = true, viewport = 800 } = {}) {
   const window = {
     innerHeight: viewport, scrollY: 0,
     matchMedia: () => preference,
-    addEventListener() {}, removeEventListener() {},
-    requestAnimationFrame: () => 1, cancelAnimationFrame() {},
+    addEventListener: (event, fn) => listeners.set(`window:${event}`, fn),
+    removeEventListener: (event) => listeners.delete(`window:${event}`),
+    requestAnimationFrame: (fn) => { frames.push(fn); return frames.length; },
+    cancelAnimationFrame() {},
   };
   if (supported) window.IntersectionObserver = Observer;
   const context = {
@@ -67,7 +73,7 @@ function setup({ reduced = false, supported = true, viewport = 800 } = {}) {
   vm.runInNewContext(source, context);
   context.exports.ScrollMotion();
   const cleanup = effect();
-  return { visible, above, below, nested, observers, preference, listeners, cleanup };
+  return { visible, above, below, nested, footer, window, frames, observers, preference, listeners, cleanup };
 }
 
 test("initial viewport and restored scroll never flash or disappear", () => {
@@ -107,6 +113,24 @@ test("keyboard focus immediately reveals an offscreen control", () => {
   const state = setup();
   state.listeners.get("focusin")({ target: state.below });
   assert.ok(state.below.classes.has("is-visible"));
+});
+
+test("footer content is always visible without waiting for an entrance", () => {
+  const state = setup();
+  assert.equal(state.footer.classes.size, 0);
+  assert.equal(state.observers[0].observed.has(state.footer), false);
+});
+
+test("scroll limit reveals blocks that cannot reach the observer viewport", () => {
+  for (const viewport of [640, 1080]) {
+    const state = setup({ viewport });
+    assert.ok(state.below.classes.has("scroll-enter"));
+    state.window.scrollY = 4000 - viewport;
+    state.listeners.get("window:scroll")();
+    state.frames.shift()();
+    assert.ok(state.below.classes.has("is-visible"));
+    assert.equal(state.observers[0].observed.size, 0);
+  }
 });
 
 test("reduced motion, missing observer and cleanup keep content visible", () => {
