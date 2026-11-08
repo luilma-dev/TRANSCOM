@@ -467,7 +467,7 @@ export default function HomePage() {
             {/* Fotografia à Direita no Desktop / Abaixo com Fusão Suave no Celular */}
             <div className="relative h-[220px] sm:h-[340px] lg:h-auto lg:absolute lg:inset-y-0 lg:right-0 w-full lg:w-[62%] mt-2 lg:mt-0 overflow-hidden pointer-events-none">
               <img
-                src={getAssetPath("/media/quem-somos-equipe.jpg")}
+                src={getAssetPath("/media/quem-somos-equipe.jpg?v=2")}
                 alt="Equipe Transcom"
                 className="w-full h-full object-cover object-center panoramic-photo-mask"
               />
