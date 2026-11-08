@@ -114,8 +114,21 @@ export default function HomePage() {
 
   useEffect(() => {
     let rafId: number | null = null;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     const updateScroll = () => {
+      if (reducedMotion.matches) {
+        [heroBgRef.current, heroContentRef.current, sobreImgParallaxRef.current].forEach((el) => {
+          if (el) {
+            el.style.transform = "none";
+            el.style.filter = "none";
+            el.style.opacity = "1";
+          }
+        });
+        if (heroVignetteRef.current) heroVignetteRef.current.style.opacity = "0";
+        rafId = null;
+        return;
+      }
       const scrollY = window.scrollY;
       const vh = window.innerHeight;
       const maxScroll = Math.max(vh * 0.75, 520);
@@ -157,9 +170,11 @@ export default function HomePage() {
     };
 
     updateScroll();
+    reducedMotion.addEventListener("change", onScroll);
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll, { passive: true });
     return () => {
+      reducedMotion.removeEventListener("change", onScroll);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
       if (rafId !== null) {
@@ -205,9 +220,16 @@ export default function HomePage() {
     }, 1050);
   };
 
-  // Ensure active video is always playing (including after HMR or tab switch)
+  // Background playback is only needed while the hero can be seen.
   useEffect(() => {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const startActiveVideo = () => {
+      if (reducedMotion.matches || document.hidden ||
+          (heroBgRef.current && heroBgRef.current.getBoundingClientRect().bottom <= 0)) {
+        video0Ref.current?.pause();
+        video1Ref.current?.pause();
+        return;
+      }
       const current =
         activeVideoIndexRef.current === 0 ? video0Ref.current : video1Ref.current;
       if (current && (current.paused || current.ended)) {
@@ -217,8 +239,14 @@ export default function HomePage() {
     };
 
     startActiveVideo();
+    reducedMotion.addEventListener("change", startActiveVideo);
+    document.addEventListener("visibilitychange", startActiveVideo);
     const watchdog = window.setInterval(startActiveVideo, 1000);
-    return () => window.clearInterval(watchdog);
+    return () => {
+      window.clearInterval(watchdog);
+      reducedMotion.removeEventListener("change", startActiveVideo);
+      document.removeEventListener("visibilitychange", startActiveVideo);
+    };
   }, []);
 
   const handleVideoTimeUpdate = (
@@ -353,6 +381,7 @@ export default function HomePage() {
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="lg:hidden w-10 h-10 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center text-white"
+              aria-expanded={mobileMenuOpen}
               aria-label={mobileMenuOpen ? "Fechar menu" : "Abrir menu"}
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -361,7 +390,7 @@ export default function HomePage() {
 
           {/* Mobile Dropdown Navigation */}
           {mobileMenuOpen && (
-            <div className="absolute top-20 left-4 right-4 z-40 lg:hidden bg-[#0D0D0F]/90 backdrop-blur-xl border border-white/20 rounded-[24px] p-4 shadow-card space-y-2.5 text-white">
+            <div className="motion-menu absolute top-20 left-4 right-4 z-40 lg:hidden bg-[#0D0D0F]/90 backdrop-blur-xl border border-white/20 rounded-[24px] p-4 shadow-card space-y-2.5 text-white">
               <div className="grid grid-cols-2 gap-1">
                 {NAV_LINKS.map((link) => (
                   <a
@@ -404,7 +433,7 @@ export default function HomePage() {
             className="relative z-10 max-w-5xl mx-auto text-center my-auto py-8 sm:py-12 px-1 will-change-transform"
           >
             {/* 2-Line Display Headline with Inline Icon Badges */}
-            <h1 className="text-[5.2vw] sm:text-5xl lg:text-6xl font-semibold tracking-[-0.03em] leading-[1.3] sm:leading-[1.14] text-white">
+            <h1 className="motion-hero-title text-[5.2vw] sm:text-5xl lg:text-6xl font-semibold tracking-[-0.03em] leading-[1.3] sm:leading-[1.14] text-white">
               <span className="block whitespace-nowrap">
                 <span>Movimentando</span>{" "}
                 <span
@@ -428,7 +457,7 @@ export default function HomePage() {
             </h1>
 
             {/* Subtitle */}
-            <p className="mobile-hero-description mt-4 sm:mt-5 text-[13px] sm:text-base text-zinc-200 max-w-[300px] sm:max-w-xl mx-auto leading-[1.6] sm:leading-relaxed">
+            <p className="motion-hero-copy mobile-hero-description mt-4 sm:mt-5 text-[13px] sm:text-base text-zinc-200 max-w-[300px] sm:max-w-xl mx-auto leading-[1.6] sm:leading-relaxed">
               A <strong className="font-semibold text-white">Transcom</strong> é
               especialista em transporte de cargas refrigeradas e congeladas,
               oferecendo soluções logísticas com segurança, eficiência e compromisso
@@ -563,7 +592,7 @@ export default function HomePage() {
           {/* 3 Serviços em Layout Editorial Limpo sobre Fundo Azul */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 lg:gap-14 pt-6 sm:pt-8 border-t border-white/15">
             {SERVICES_LIST.map((service) => (
-              <article key={service.id} className="space-y-2.5">
+              <article key={service.id} data-motion="content" className="space-y-2.5">
                 <h3 className="text-xl sm:text-2xl font-bold text-white tracking-[-0.025em] leading-[1.2]">
                   {service.title}
                 </h3>
@@ -625,6 +654,7 @@ export default function HomePage() {
           ].map(({ name, segment, src, imgClass }) => (
             <div
               key={name}
+              data-motion="content"
               className="py-8 sm:py-12 px-4 sm:px-8 flex flex-col items-start justify-between gap-6"
             >
               <div className="h-14 flex items-center">
@@ -775,11 +805,11 @@ export default function HomePage() {
       ===================================================================== */}
       {contactModalOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm"
+          className="motion-backdrop fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm"
           onClick={() => setContactModalOpen(false)}
         >
           <div
-            className="bg-white rounded-[28px] sm:rounded-[32px] max-w-xl w-full max-h-[92vh] overflow-y-auto shadow-card relative"
+            className="motion-dialog bg-white rounded-[28px] sm:rounded-[32px] max-w-xl w-full max-h-[92vh] overflow-y-auto shadow-card relative"
             onClick={(e) => e.stopPropagation()}
           >
             <button

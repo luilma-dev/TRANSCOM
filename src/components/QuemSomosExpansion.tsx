@@ -204,6 +204,7 @@ const AnimatedMetricNumber: React.FC<{
   const [displayValue, setDisplayValue] = useState(value);
 
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const match = value.match(/^(\d+(?:,\d+)?)(.*)$/);
     if (!match) {
       setDisplayValue(value);
@@ -231,6 +232,10 @@ const AnimatedMetricNumber: React.FC<{
       const startTime = performance.now();
 
       const step = (now: number) => {
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          setDisplayValue(value);
+          return;
+        }
         const elapsed = now - startTime;
         const progress = Math.min(1, Math.max(0, elapsed / duration));
         // Cubic ease-out for a fast start and smooth landing
@@ -279,11 +284,7 @@ const AnimatedMetricNumber: React.FC<{
   return <span ref={spanRef}>{displayValue}</span>;
 };
 
-/**
- * Helper wrapper that adds a subtle, refined scroll-reveal entrance animation
- * when each subsection enters the viewport (driven by the global ScrollMotion
- * observer via `data-reveal`; reveals once and never hides again).
- */
+/** Semantic section wrapper; entrances are limited to individual photos. */
 const ScrollRevealBlock: React.FC<{
   children: React.ReactNode;
   className?: string;
@@ -468,7 +469,6 @@ export const QuemSomosExpansion: React.FC = () => {
 
           {/* Card Panorâmico Escuro (#0D0D0F) com Mesma Largura Total (1340px) do Quem Somos */}
           <div
-            data-reveal="clip"
             className="mobile-panel relative -mx-1 sm:-mx-8 lg:-mx-12 lg:min-h-[620px] rounded-[28px] sm:rounded-[40px] overflow-hidden bg-[#0D0D0F] flex flex-col lg:flex-row lg:items-center"
           >
             {/* Informações à Esquerda no Desktop / Topo no Celular */}
@@ -581,7 +581,7 @@ export const QuemSomosExpansion: React.FC = () => {
                 const numero = `0${idx + 1}`;
                 return (
                   <article key={item.id} className="group flex flex-col">
-                    <div className="mobile-team-photo relative aspect-[16/10] w-full rounded-[24px] sm:rounded-[32px] overflow-hidden bg-[#18181B] border border-white/10 mb-4 sm:mb-6">
+                    <div data-motion="photo" className="mobile-team-photo relative aspect-[16/10] w-full rounded-[24px] sm:rounded-[32px] overflow-hidden bg-[#18181B] border border-white/10 mb-4 sm:mb-6">
                       <img
                         src={getAssetPath(item.fotoUrl)}
                         alt={item.departamento}
@@ -608,7 +608,7 @@ export const QuemSomosExpansion: React.FC = () => {
                 const numero = `0${globalIdx + 1}`;
                 return (
                   <article key={item.id} className="group flex flex-col">
-                    <div className="mobile-team-photo relative aspect-[4/3] w-full rounded-[24px] sm:rounded-[32px] overflow-hidden bg-[#18181B] border border-white/10 mb-4 sm:mb-6">
+                    <div data-motion="photo" className="mobile-team-photo relative aspect-[4/3] w-full rounded-[24px] sm:rounded-[32px] overflow-hidden bg-[#18181B] border border-white/10 mb-4 sm:mb-6">
                       <img
                         src={getAssetPath(item.fotoUrl)}
                         alt={item.departamento}

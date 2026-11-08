@@ -316,12 +316,54 @@ body {
   }
 }
 
-/* =========================================================================
-   SISTEMA DE MOVIMENTO NO SCROLL
-   Conteúdo sempre 100% visível por padrão, sem esconder blocos com opacity-0.
-   ========================================================================= */
-[data-reveal] {
-  opacity: 1;
+/* The opening settles into focus alongside the logo's ignition sequence. */
+@keyframes hero-focus {
+  from { opacity: 0.5; transform: translateY(12px); filter: blur(3px); }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+@keyframes overlay-arrival {
+  from { opacity: 0; transform: translateY(10px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes backdrop-arrival {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .motion-hero-title {
+    animation: hero-focus 750ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .motion-hero-copy {
+    animation: hero-focus 750ms cubic-bezier(0.16, 1, 0.3, 1) 120ms backwards;
+  }
+
+  .motion-menu,
+  .motion-dialog {
+    transform-origin: top center;
+    animation: overlay-arrival 250ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .motion-backdrop {
+    animation: backdrop-arrival 180ms ease-out;
+  }
+
+  button {
+    transition: transform 150ms ease-out, background-color 200ms ease-out, color 200ms ease-out;
+  }
+
+  button:active {
+    transform: scale(0.97);
+  }
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .mobile-team-photo img {
+    transition: transform 650ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
 }
 
 /* =========================================================================
@@ -362,16 +404,14 @@ body {
     scroll-behavior: auto;
   }
 
-  .reveal-ready [data-reveal] {
+  .mobile-team-photo img,
+  .panoramic-photo-mask {
     transition-property: opacity;
-    transition-duration: 300ms;
-    transition-delay: 0ms;
+    transition-duration: 150ms;
   }
 
-  .reveal-ready [data-reveal]:not([data-revealed]) {
+  .group:hover .mobile-team-photo img {
     transform: none;
-    filter: none;
-    clip-path: none;
   }
 
   .logo-needle-scroll,
