@@ -311,7 +311,7 @@ export const QuemSomosExpansion: React.FC = () => {
   }, []);
 
   return (
-    <div className="max-w-[1340px] mx-auto px-1 sm:px-8 lg:px-12 space-y-16 sm:space-y-24 lg:space-y-28 pt-6 sm:pt-14">
+    <div className="mobile-about max-w-[1340px] mx-auto px-1 sm:px-8 lg:px-12 space-y-16 sm:space-y-24 lg:space-y-28 pt-6 sm:pt-14">
       {/* =====================================================================
           1. NOSSA HISTÓRIA (APENAS AS INFORMAÇÕES EM ESCALA EDITORIAL MAIOR)
       ===================================================================== */}
@@ -408,7 +408,7 @@ export const QuemSomosExpansion: React.FC = () => {
           {/* Faixa de Números e Indicadores: 4 Colunas na Página */}
           <div
             ref={metricsRowRef}
-            className="pt-4 sm:pt-8 grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-10 tabular-nums"
+            className="mobile-metrics pt-4 sm:pt-8 grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-10 tabular-nums"
           >
             {NOSSA_HISTORIA_CONTEUDO.indicadores.map((item, idx) => (
               <div key={item.id} className="space-y-1 sm:space-y-1.5">
@@ -469,10 +469,10 @@ export const QuemSomosExpansion: React.FC = () => {
           {/* Card Panorâmico Escuro (#0D0D0F) com Mesma Largura Total (1340px) do Quem Somos */}
           <div
             data-reveal="clip"
-            className="relative -mx-1 sm:-mx-8 lg:-mx-12 lg:min-h-[620px] rounded-[28px] sm:rounded-[40px] overflow-hidden bg-[#0D0D0F] flex flex-col lg:flex-row lg:items-center"
+            className="mobile-panel relative -mx-1 sm:-mx-8 lg:-mx-12 lg:min-h-[620px] rounded-[28px] sm:rounded-[40px] overflow-hidden bg-[#0D0D0F] flex flex-col lg:flex-row lg:items-center"
           >
             {/* Informações à Esquerda no Desktop / Topo no Celular */}
-            <div className="relative z-10 w-full lg:w-[48%] mr-auto p-6 sm:p-12 lg:px-16 lg:py-16 space-y-5 sm:space-y-7 text-white">
+            <div className="mobile-panel-copy relative z-10 w-full lg:w-[48%] mr-auto p-6 sm:p-12 lg:px-16 lg:py-16 space-y-5 sm:space-y-7 text-white">
               <h4 className="text-2xl sm:text-4xl lg:text-[42px] font-semibold text-white tracking-[-0.025em] leading-[1.18] sm:leading-[1.16]">
                 Estrutura física e tecnológica{" "}
                 <span className="relative inline-block px-2 sm:px-2.5 py-0.5 mx-0.5 text-[#FF7300] border border-[#E30613] bg-[#E30613]/15">
@@ -508,7 +508,7 @@ export const QuemSomosExpansion: React.FC = () => {
               </div>
 
               {/* Seletores em Pílula para Alternar entre os 3 Pilares da Estrutura */}
-              <div className="pt-1 sm:pt-2 flex flex-wrap items-center gap-2 tabular-nums">
+              <div className="mobile-structure-controls pt-1 sm:pt-2 flex flex-wrap items-center gap-2 tabular-nums">
                 {NOSSA_ESTRUTURA_ITENS.map((item, idx) => {
                   const isSelected = idx === activeEstruturaIndex;
                   return (
@@ -581,7 +581,7 @@ export const QuemSomosExpansion: React.FC = () => {
                 const numero = `0${idx + 1}`;
                 return (
                   <article key={item.id} className="group flex flex-col">
-                    <div className="relative aspect-[16/10] w-full rounded-[24px] sm:rounded-[32px] overflow-hidden bg-[#18181B] border border-white/10 mb-4 sm:mb-6">
+                    <div className="mobile-team-photo relative aspect-[16/10] w-full rounded-[24px] sm:rounded-[32px] overflow-hidden bg-[#18181B] border border-white/10 mb-4 sm:mb-6">
                       <img
                         src={getAssetPath(item.fotoUrl)}
                         alt={item.departamento}
@@ -608,7 +608,7 @@ export const QuemSomosExpansion: React.FC = () => {
                 const numero = `0${globalIdx + 1}`;
                 return (
                   <article key={item.id} className="group flex flex-col">
-                    <div className="relative aspect-[4/3] w-full rounded-[24px] sm:rounded-[32px] overflow-hidden bg-[#18181B] border border-white/10 mb-4 sm:mb-6">
+                    <div className="mobile-team-photo relative aspect-[4/3] w-full rounded-[24px] sm:rounded-[32px] overflow-hidden bg-[#18181B] border border-white/10 mb-4 sm:mb-6">
                       <img
                         src={getAssetPath(item.fotoUrl)}
                         alt={item.departamento}

@@ -428,7 +428,7 @@ export default function HomePage() {
             </h1>
 
             {/* Subtitle */}
-            <p className="mt-4 sm:mt-5 text-[13px] sm:text-base text-zinc-200 max-w-[300px] sm:max-w-xl mx-auto leading-[1.6] sm:leading-relaxed">
+            <p className="mobile-hero-description mt-4 sm:mt-5 text-[13px] sm:text-base text-zinc-200 max-w-[300px] sm:max-w-xl mx-auto leading-[1.6] sm:leading-relaxed">
               A <strong className="font-semibold text-white">Transcom</strong> é
               especialista em transporte de cargas refrigeradas e congeladas,
               oferecendo soluções logísticas com segurança, eficiência e compromisso
@@ -439,7 +439,7 @@ export default function HomePage() {
       </div>
 
       {/* CURTAIN SHEET THAT GLIDES UP OVER THE HERO VIDEO ON SCROLL */}
-      <div className="relative z-20 -mt-14 sm:-mt-20 bg-white rounded-t-[32px] sm:rounded-t-[44px] px-4 sm:px-6 lg:px-8 pt-10 sm:pt-20 pb-12">
+      <div className="mobile-content relative z-20 -mt-14 sm:-mt-20 bg-white rounded-t-[32px] sm:rounded-t-[44px] px-4 sm:px-6 lg:px-8 pt-10 sm:pt-20 pb-12">
       {/* =====================================================================
           BLOCO 2: QUEM SOMOS (TÓPICO GRANDE NO ESPAÇO BRANCO + PAINEL COM FOTO)
       ===================================================================== */}
@@ -451,7 +451,7 @@ export default function HomePage() {
       >
         <div>
           {/* Tópico Grande no Espaço em Branco Acima do Card (Entrada Escalonada) */}
-          <div className="mb-6 sm:mb-10 pl-1 sm:pl-8 lg:pl-12">
+          <div className="mobile-section-heading mb-6 sm:mb-10 pl-1 sm:pl-8 lg:pl-12">
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-[#0D0D0F] tracking-[-0.03em] leading-[1.08]">
               <span>Quem</span>{" "}
               <span
@@ -471,12 +471,12 @@ export default function HomePage() {
 
           <div
             key="sobre-card-v4"
-            className="relative w-full lg:min-h-[620px] rounded-[28px] sm:rounded-[40px] overflow-hidden bg-[#0D0D0F] flex flex-col lg:flex-row lg:items-center opacity-100"
+            className="mobile-panel relative w-full lg:min-h-[620px] rounded-[28px] sm:rounded-[40px] overflow-hidden bg-[#0D0D0F] flex flex-col lg:flex-row lg:items-center opacity-100"
           >
             {/* Informações à Esquerda no Desktop / Topo no Celular */}
             <div
               key="sobre-text-v4"
-              className="relative z-10 w-full lg:w-[45%] mr-auto p-6 sm:p-12 lg:px-16 lg:py-16 space-y-5 sm:space-y-7 text-white"
+              className="mobile-panel-copy relative z-10 w-full lg:w-[45%] mr-auto p-6 sm:p-12 lg:px-16 lg:py-16 space-y-5 sm:space-y-7 text-white"
             >
               <h3 className="text-2xl sm:text-4xl lg:text-[44px] font-semibold text-white tracking-[-0.025em] leading-[1.18] sm:leading-[1.16]">
                 Mais que transporte, somos{" "}
@@ -651,8 +651,8 @@ export default function HomePage() {
         id="contato"
         className="max-w-[1340px] mx-auto px-1 sm:px-8 lg:px-12 pt-12 sm:pt-20"
       >
-        <div className="relative -mx-1 sm:-mx-8 lg:-mx-12 rounded-[28px] sm:rounded-[40px] overflow-hidden bg-[#0D0D0F] text-white">
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 sm:gap-8 p-6 sm:p-12 lg:px-16 lg:pt-16 lg:pb-12">
+        <div className="mobile-panel relative -mx-1 sm:-mx-8 lg:-mx-12 rounded-[28px] sm:rounded-[40px] overflow-hidden bg-[#0D0D0F] text-white">
+          <div className="mobile-contact-intro flex flex-col lg:flex-row lg:items-end justify-between gap-6 sm:gap-8 p-6 sm:p-12 lg:px-16 lg:pt-16 lg:pb-12">
             <div className="space-y-2.5 sm:space-y-4 max-w-2xl">
               <h2 className="text-3xl sm:text-5xl font-bold text-white tracking-[-0.03em] leading-[1.08]">
                 Vamos conversar?
@@ -675,7 +675,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 border-t border-white/15 divide-y sm:divide-y-0 sm:divide-x divide-white/15 tabular-nums">
+          <div className="mobile-contact-details grid grid-cols-1 sm:grid-cols-3 border-t border-white/15 divide-y sm:divide-y-0 sm:divide-x divide-white/15 tabular-nums">
             <a
               href="tel:+559140028922"
               className="group block p-7 sm:p-10 lg:px-16 lg:py-12 space-y-1.5"
