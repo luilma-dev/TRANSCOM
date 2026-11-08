@@ -318,7 +318,7 @@ body {
 
 /* The opening settles into focus alongside the logo's ignition sequence. */
 @keyframes hero-focus {
-  from { opacity: 0.5; transform: translateY(12px); filter: blur(3px); }
+  from { opacity: 0.3; transform: translateY(22px); filter: blur(3px); }
   to { opacity: 1; transform: translateY(0); filter: blur(0); }
 }
 
@@ -334,21 +334,21 @@ body {
 
 @media (prefers-reduced-motion: no-preference) {
   .motion-hero-title {
-    animation: hero-focus 750ms cubic-bezier(0.16, 1, 0.3, 1);
+    animation: hero-focus 1500ms cubic-bezier(0.22, 0.61, 0.36, 1);
   }
 
   .motion-hero-copy {
-    animation: hero-focus 750ms cubic-bezier(0.16, 1, 0.3, 1) 120ms backwards;
+    animation: hero-focus 1500ms cubic-bezier(0.22, 0.61, 0.36, 1) 280ms backwards;
   }
 
   .motion-menu,
   .motion-dialog {
     transform-origin: top center;
-    animation: overlay-arrival 250ms cubic-bezier(0.16, 1, 0.3, 1);
+    animation: overlay-arrival 450ms cubic-bezier(0.22, 0.61, 0.36, 1);
   }
 
   .motion-backdrop {
-    animation: backdrop-arrival 180ms ease-out;
+    animation: backdrop-arrival 300ms ease-out;
   }
 
   button {
@@ -362,7 +362,61 @@ body {
 
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
   .mobile-team-photo img {
-    transition: transform 650ms cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 1100ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+}
+
+/* The open, borderless layout also carries through tablet and desktop. */
+@media (min-width: 640px) {
+  .mobile-content {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  .mobile-panel {
+    width: 100vw;
+    margin-inline: calc(50% - 50vw);
+    border-radius: 0;
+  }
+
+  .mobile-panel-copy {
+    padding-block: 56px;
+    padding-inline: max(40px, calc((100vw - 1244px) / 2));
+  }
+
+  .mobile-panel-copy > * + * {
+    margin-top: 32px;
+  }
+
+  .mobile-team-photo {
+    border-radius: 0;
+    border: 0;
+    margin-bottom: 28px;
+  }
+
+  #servicos article p,
+  #nossa-equipe article p {
+    margin-top: 20px;
+    line-height: 1.8;
+  }
+
+  .mobile-contact-intro {
+    padding: 64px max(40px, calc((100vw - 1244px) / 2));
+    gap: 40px;
+  }
+
+  .mobile-contact-details {
+    max-width: 1340px;
+    margin-inline: auto;
+  }
+}
+
+@media (min-width: 1024px) {
+  .mobile-panel-copy {
+    width: 48%;
+    padding-top: 72px;
+    padding-bottom: 72px;
+    padding-right: 48px;
   }
 }
 
@@ -383,7 +437,7 @@ body {
 }
 
 .logo-needle-ignition {
-  animation: needle-ignition 1500ms cubic-bezier(0.16, 1, 0.3, 1) 250ms both;
+  animation: needle-ignition 2200ms cubic-bezier(0.22, 0.61, 0.36, 1) 250ms both;
 }
 
 @keyframes needle-ignition {

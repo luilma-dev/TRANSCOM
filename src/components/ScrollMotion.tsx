@@ -20,26 +20,32 @@ export const ScrollMotion = () => {
           if (reducedMotion.matches || typeof element.animate !== "function") return;
 
           const isPhoto = element.dataset.motion === "photo";
+          const isDesktop = window.matchMedia("(min-width: 768px)").matches;
+          const siblings = Array.from(element.parentElement?.children ?? [])
+            .filter((sibling) => sibling.hasAttribute("data-motion"));
+          const order = Math.max(0, siblings.indexOf(element));
           const animation = element.animate(
             isPhoto
               ? [
-                  { clipPath: "inset(0 0 8% 0)", opacity: 0.65 },
+                  { clipPath: "inset(0 0 14% 0)", opacity: 0.45 },
                   { clipPath: "inset(0 0 0% 0)", opacity: 1 },
                 ]
               : [
-                  { transform: "translateY(18px)", opacity: 0.45 },
+                  { transform: `translateY(${isDesktop ? 32 : 24}px)`, opacity: 0.3 },
                   { transform: "translateY(0)", opacity: 1 },
                 ],
             {
-              duration: isPhoto ? 700 : 550,
-              easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+              duration: isPhoto ? (isDesktop ? 1800 : 1600) : 1300,
+              delay: isDesktop ? Math.min(order, 2) * 180 : 0,
+              fill: "backwards",
+              easing: "cubic-bezier(0.22, 0.61, 0.36, 1)",
             }
           );
           animations.add(animation);
           animation.onfinish = () => animations.delete(animation);
         });
       },
-      { threshold: 0.12 }
+      { threshold: 0.22, rootMargin: "0px 0px -7% 0px" }
     );
     document.querySelectorAll<HTMLElement>("[data-motion]").forEach((element) => {
       observer.observe(element);
