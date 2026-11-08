@@ -581,7 +581,7 @@ export const QuemSomosExpansion: React.FC = () => {
                 const numero = `0${idx + 1}`;
                 return (
                   <article key={item.id} className="group flex flex-col">
-                    <div data-motion="photo" className="mobile-team-photo relative aspect-[16/10] w-full rounded-[24px] sm:rounded-[32px] overflow-hidden bg-[#18181B] border border-white/10 mb-4 sm:mb-6">
+                    <div className="mobile-team-photo relative aspect-[16/10] w-full rounded-[24px] sm:rounded-[32px] overflow-hidden bg-[#18181B] border border-white/10 mb-4 sm:mb-6">
                       <img
                         src={getAssetPath(item.fotoUrl)}
                         alt={item.departamento}
@@ -608,7 +608,7 @@ export const QuemSomosExpansion: React.FC = () => {
                 const numero = `0${globalIdx + 1}`;
                 return (
                   <article key={item.id} className="group flex flex-col">
-                    <div data-motion="photo" className="mobile-team-photo relative aspect-[4/3] w-full rounded-[24px] sm:rounded-[32px] overflow-hidden bg-[#18181B] border border-white/10 mb-4 sm:mb-6">
+                    <div className="mobile-team-photo relative aspect-[4/3] w-full rounded-[24px] sm:rounded-[32px] overflow-hidden bg-[#18181B] border border-white/10 mb-4 sm:mb-6">
                       <img
                         src={getAssetPath(item.fotoUrl)}
                         alt={item.departamento}

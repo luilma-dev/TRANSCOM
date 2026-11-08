@@ -333,6 +333,20 @@ body {
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  /* Only offscreen blocks are prepared; no JS means all content stays visible.
+     The independent translate property preserves existing layout transforms. */
+  .scroll-enter {
+    opacity: 0;
+    translate: 0 28px;
+  }
+
+  .scroll-enter.is-visible {
+    opacity: 1;
+    translate: 0 0;
+    transition: opacity 1400ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      translate 1400ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+
   .motion-hero-title {
     animation: hero-focus 1500ms cubic-bezier(0.22, 0.61, 0.36, 1);
   }

@@ -104,84 +104,10 @@ export default function HomePage() {
   const activeVideoIndexRef = useRef<0 | 1>(0);
   const isTransitioningRef = useRef(false);
 
-  // Direct DOM refs for 60fps scroll animation without triggering React re-renders
+  // Refs for video visibility and section anchors
   const heroBgRef = useRef<HTMLDivElement | null>(null);
-  const heroVignetteRef = useRef<HTMLDivElement | null>(null);
-  const heroContentRef = useRef<HTMLDivElement | null>(null);
   const sobreRevealSectionRef = useRef<HTMLElement | null>(null);
-  const sobreImgParallaxRef = useRef<HTMLImageElement | null>(null);
   const servicosRevealSectionRef = useRef<HTMLElement | null>(null);
-
-  useEffect(() => {
-    let rafId: number | null = null;
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-
-    const updateScroll = () => {
-      if (reducedMotion.matches) {
-        [heroBgRef.current, heroContentRef.current, sobreImgParallaxRef.current].forEach((el) => {
-          if (el) {
-            el.style.transform = "none";
-            el.style.filter = "none";
-            el.style.opacity = "1";
-          }
-        });
-        if (heroVignetteRef.current) heroVignetteRef.current.style.opacity = "0";
-        rafId = null;
-        return;
-      }
-      const scrollY = window.scrollY;
-      const vh = window.innerHeight;
-      const maxScroll = Math.max(vh * 0.75, 520);
-      const p = Math.min(1, Math.max(0, scrollY / maxScroll));
-
-      if (heroBgRef.current) {
-        heroBgRef.current.style.transform = `scale(${1 + p * 0.16}) translate3d(0, ${
-          p * 36
-        }px, 0)`;
-      }
-      if (heroVignetteRef.current) {
-        heroVignetteRef.current.style.opacity = `${p * 0.55}`;
-      }
-      if (heroContentRef.current) {
-        heroContentRef.current.style.transform = `translate3d(0, ${
-          -p * 115
-        }px, 0) scale(${1 - p * 0.08})`;
-        heroContentRef.current.style.opacity = `${Math.max(0, 1 - p * 1.3)}`;
-        heroContentRef.current.style.filter = `blur(${p * 6}px)`;
-      }
-
-      if (sobreImgParallaxRef.current) {
-        const rect = sobreImgParallaxRef.current.getBoundingClientRect();
-        const progress = Math.min(
-          1,
-          Math.max(0, (vh - rect.top) / Math.max(1, vh + rect.height))
-        );
-        const imgTy = Math.round((0.5 - progress) * 24);
-        sobreImgParallaxRef.current.style.transform = `scale(1.05) translate3d(0, ${imgTy}px, 0)`;
-      }
-
-      rafId = null;
-    };
-
-    const onScroll = () => {
-      if (rafId === null) {
-        rafId = window.requestAnimationFrame(updateScroll);
-      }
-    };
-
-    updateScroll();
-    reducedMotion.addEventListener("change", onScroll);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
-    return () => {
-      reducedMotion.removeEventListener("change", onScroll);
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      if (rafId !== null) {
-        window.cancelAnimationFrame(rafId);
-      }
-    };
-  }, ["scroll-v6"]);
 
   // Modal Form State
   const [formData, setFormData] = useState({
@@ -278,14 +204,14 @@ export default function HomePage() {
     <div className="min-h-screen bg-white text-[#0D0D0F]">
       <ScrollMotion />
       {/* =====================================================================
-          BLOCO 1: HERO STICKY FULL-SCREEN COM EFEITO PARALLAX E CORTINA NO SCROLL
+          BLOCO 1: HERO STICKY FULL-SCREEN COM CORTINA NO SCROLL
       ===================================================================== */}
       <div id="inicio" className="relative h-[108vh] sm:h-[125vh] lg:h-[135vh] w-full bg-[#0D0D0F]">
         <section className="sticky top-0 w-full h-screen flex flex-col justify-between bg-[#0D0D0F] text-white px-4 sm:px-8 lg:px-14 pt-6 pb-12 overflow-hidden">
-          {/* INFINITE CROSSFADE BACKGROUND VIDEOS WITH 3D SCROLL ZOOM */}
+          {/* INFINITE CROSSFADE BACKGROUND VIDEOS */}
           <div
             ref={heroBgRef}
-            className="absolute inset-0 z-0 will-change-transform"
+            className="absolute inset-0 z-0"
           >
             <video
               ref={video0Ref}
@@ -318,11 +244,6 @@ export default function HomePage() {
             />
             {/* Balanced cinematic overlay so the video shines while keeping text legible */}
             <div className="absolute inset-0 bg-gradient-to-b from-[#0D0D0F]/65 via-[#0D0D0F]/50 to-[#0D0D0F]/85" />
-            {/* Scroll-deepening cinema vignette */}
-            <div
-              ref={heroVignetteRef}
-              className="absolute inset-0 bg-[#0D0D0F] pointer-events-none opacity-0"
-            />
           </div>
 
           {/* 1A. FLOATING PILL NAVIGATION HEADER */}
@@ -427,10 +348,9 @@ export default function HomePage() {
             </div>
           )}
 
-          {/* 1B. HERO CENTERED DISPLAY WITH LAYERED PARALLAX ON SCROLL */}
+          {/* 1B. HERO CENTERED DISPLAY */}
           <div
-            ref={heroContentRef}
-            className="relative z-10 max-w-5xl mx-auto text-center my-auto py-8 sm:py-12 px-1 will-change-transform"
+            className="relative z-10 max-w-5xl mx-auto text-center my-auto py-8 sm:py-12 px-1"
           >
             {/* 2-Line Display Headline with Inline Icon Badges */}
             <h1 className="motion-hero-title text-[5.2vw] sm:text-5xl lg:text-6xl font-semibold tracking-[-0.03em] leading-[1.3] sm:leading-[1.14] text-white">
@@ -547,7 +467,6 @@ export default function HomePage() {
             {/* Fotografia à Direita no Desktop / Abaixo com Fusão Suave no Celular */}
             <div className="relative h-[220px] sm:h-[340px] lg:h-auto lg:absolute lg:inset-y-0 lg:right-0 w-full lg:w-[62%] mt-2 lg:mt-0 overflow-hidden pointer-events-none">
               <img
-                ref={sobreImgParallaxRef}
                 src={getAssetPath("/media/quem-somos-equipe.jpg")}
                 alt="Equipe Transcom"
                 className="w-full h-full object-cover object-center panoramic-photo-mask"
@@ -592,7 +511,7 @@ export default function HomePage() {
           {/* 3 Serviços em Layout Editorial Limpo sobre Fundo Azul */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 lg:gap-14 pt-6 sm:pt-8 border-t border-white/15">
             {SERVICES_LIST.map((service) => (
-              <article key={service.id} data-motion="content" className="space-y-2.5">
+              <article key={service.id} className="space-y-2.5">
                 <h3 className="text-xl sm:text-2xl font-bold text-white tracking-[-0.025em] leading-[1.2]">
                   {service.title}
                 </h3>
@@ -654,7 +573,6 @@ export default function HomePage() {
           ].map(({ name, segment, src, imgClass }) => (
             <div
               key={name}
-              data-motion="content"
               className="py-8 sm:py-12 px-4 sm:px-8 flex flex-col items-start justify-between gap-6"
             >
               <div className="h-14 flex items-center">
